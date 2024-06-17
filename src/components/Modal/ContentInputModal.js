@@ -1,0 +1,54 @@
+import {StyleSheet, Text, View, Dimensions, TextInput} from 'react-native';
+import React, {useState} from 'react';
+import Modal from 'react-native-modal';
+import Button from '../../Button';
+const ContentInputModal = ({visible, onClose, onSend}) => {
+  const [text, setText] = useState('');
+  function handleSend() {
+    if (!text) {
+      return;
+    }
+    onSend(text);
+    setText(null);
+  }
+  return (
+    <Modal
+      style={styles.modal}
+      isVisible={visible}
+      onSwipeComplete={onClose}
+      onBackdropPress={onClose}
+      onBackButtonPress={onClose}>
+      <View style={styles.container}>
+        <View style={styles.input_container}>
+          <TextInput
+            placeholder="Mesaj yaz..."
+            onChangeText={setText}
+            multiline
+          />
+        </View>
+        <Button text="Gönder" onPress={handleSend} />
+      </View>
+    </Modal>
+  );
+};
+
+export default ContentInputModal;
+
+const deviceSize = Dimensions.get('window');
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    padding: 15,
+    marginHorizontal: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    height: deviceSize.height / 3,
+  },
+  input_container: {
+    flex: 1,
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+});
